@@ -61,6 +61,55 @@ vim /etc/docker/daemon.json
 if your network is limited, set the http_proxy is a good choice.
 ```
 - kubeadm init --config kubeadm.config: create a control plane node in accordance with config file
+- add proxy to /lib/systemd/system/docker.service
+- Nameserver limits exceeded:  /run/systemd/resolve/resolv.conf
+- config kubectl after init
+##### Kubeadm Configuration
+```
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+bootstrapTokens:
+  - token: abcdef.abcdef0123456789
+    description: "kubeadm bootstrap token"
+    ttl: 24h0m0s
+    usages:
+      - signing
+      - authentication
+    groups:
+      - system:bootstrappers:bootstrap-group
+nodeRegistration:
+  name: "control-plane-1" # Is it relate to dns name? /etc/hosts?
+  criSocket: unix:///var/run/cri-dockerd.sock # in /lib/systemd/system/docker.service, is not this sock?
+  imagePullPolicy: IfNotPresent
+  taints: null
+localAPIEndpoint:
+  advertiseAddress: "192.168.1.55" # need local ip
+  bindPort: 6443
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+networking:
+  serviceSubnet: "10.96.0.0/12" # what are the specific rules?
+  podSubnet: "10.244.0.0/24"
+  dnsDomain: "cluster.local"
+kubernetesVersion: 1.26.0
+controlPlaneEndpoint: "192.168.1.55:6443" # need to be same with apiserver url. how to set dns?
+apiServer:
+  timeoutForControlPlane: 4m0s
+controllerManager: {}
+scheduler: {}
+dns: {}
+certificatesDir: /etc/kubernetes/pki
+imageRepository: registry.aliyuncs.com/google_containers # is not effective when pull pause? is it just for the images when init, but not in init detail?
+clusterName: kubernetes-cluster
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd # is this necessory?
+```
 # English
 ### Phrases
 - take on: **Taking on** a production-quality cluster means ...
@@ -75,3 +124,4 @@ if your network is limited, set the http_proxy is a good choice.
 - CA: Certificate Authority
 - CRI: Container Runtime Interface
 - CNI: Container Network Interface
+- CIDR: Classless Inter-Domain Routing
