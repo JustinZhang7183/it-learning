@@ -7,6 +7,56 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
 - Set two proxy ports including http and socks.
 ```
 {
+  # DNS configuration
+  "dns": {
+    "servers": [
+      {
+        "address": "1.1.1.1",
+        "domains": ["geosite:geolocation-!cn"]
+      },
+      {
+        "address": "223.5.5.5",
+        "domains": ["geosite:cn"],
+        "expectIPs": ["geoip:cn"]
+      },
+      {
+        "address": "114.114.114.114",
+        "domains": ["geosite:cn"]
+      },
+      "localhost"
+    ]
+  },
+  # routing configuration
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "type": "field",
+        "domain": ["geosite:category-ads-all"],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "domain": ["geosite:cn"],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "ip": ["geoip:cn", "geoip:private"],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": ["geosite:geolocation-!cn"],
+        "outboundTag": "proxy"
+      },
+      {
+        "type": "field",
+        "ip": ["223.5.5.5"],
+        "outboundTag": "direct"
+      }
+    ]
+  },
   "inbounds": [
     {
       "port": 1080,
@@ -43,11 +93,19 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
       },
       "streamSettings": {
       	"network": "tcp",
-	"security": "xtls",
-	"xtlsSettings": {
-		"serverName": "domainname"
-	}
+        "security": "xtls",
+        "xtlsSettings": {
+          "serverName": "domainname"
+        }
       }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
     }
   ]
 }
