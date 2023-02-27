@@ -21,7 +21,7 @@
 - **Coexistence of compilation and interpretation:** Java programs are compiled into bytecode, which is then interpreted by the JVM at runtime.
 
 ###### JVM, JRE, JDK
-- **JVM:** Java Virtual Machine is an abstract computing machine that provides a runtime environment to execute Java bytecode. It interprets the bytecoe and converts it into machine code that can be executed by the host operating system.
+- **JVM:** Java Virtual Machine is an abstract computing machine that provides a runtime environment to execute Java bytecode. It interprets the bytecode and converts it into machine code that can be executed by the host operating system.
 
 - **JRE:** Java Runtime Environment is a software package that contains everything required to run a Java program, including the JVM, class libraries, and other supporting files.
 
