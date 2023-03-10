@@ -77,7 +77,7 @@
 - Libraries: Java has a larger standard library than C++, and it also has a large number of third-party libraries available. C++ also has a large standard library, but it may require additional libraries for certain tasks.
 
 ### Java basic syntax
-###### What types of java annotation?
+###### What types of java comment?
 - Single-line comments: These are comments that begin with two forward slashes (//) and extend to the end of the line. Single-line comments are used to provide short, explanatory comments about a line of code.
 
 - Multi-line comments: These are comments that begin with /* and end with */. Multi-line comments can span multiple lines and are used to provide longer, more detailed comments about a section of code.
@@ -270,7 +270,7 @@
 
 - In summary, while primitive types are basic data types that are not objects, wrapper classes are classes that encapsulate primitive types and provide additional functionality. Primitive types are passed by value, while wrapper classes are passed by reference, and wrapper classes can represent a wider range of values and have additional methods.
 
-###### Escapde analysis
+###### Escape analysis
 - Escape Analysis is an optimization technique used in Java Virtual Machine (JVM) to determine whether objects allocated on the heap are accessible outside their scope, which means whether they "escape" from their method or thread. If the objects do not escape, they can be optimized by allocating them on the stack instead of the heap.
 
 - The Escape Analysis in Java can greatly improve the performance of the application by reducing the overhead of garbage collection and heap memory usage. It also enables the JVM to apply other optimizations such as lock coarsening, lock elision, and scalar replacement.
@@ -286,7 +286,7 @@
 
 - The wrapper class cache works by maintaining a cache of frequently used wrapper objects, such as Integer objects for small integers or Boolean objects for true and false values. When a new wrapper object is needed, the cache is first checked to see if an object with the requested value already exists. If such an object is found in the cache, it is returned instead of creating a new object.
 
-- The cache is implemented as a static array in each wrapper class, with a size of 128 for Integer, Short, Byte, Character, and Long classes, and a size of 2 for Boolean class. The range of values that are cached varies depending on the wrapper class.
+- The cache is implemented as a static array in each wrapper class, with a size of 256 for Integer, Short, Byte, and Long classes, a size of 128 for  Character class and a size of 2 for Boolean class. The range of values that are cached varies depending on the wrapper class.
 
 - It is important to note that the wrapper class cache is an implementation detail of the Java runtime, and its behavior may vary depending on the version of Java and the JVM being used. Therefore, it is not recommended to rely on the cache for application logic, and wrapper objects should be compared using the equals() method instead of the "==" operator.
 
@@ -311,7 +311,7 @@
     ```
 - The expected output is 0.3, but the actual output may be something like 0.300000012. This is because the numbers 0.1 and 0.2 cannot be represented exactly in binary, and when they are added, a small error is introduced.
 - To minimize the risk of precision loss, it is recommended to use the BigDecimal class for calculations that require high precision. The BigDecimal class represents decimal numbers as a sequence of digits with a fixed number of decimal places, and provides methods for precise arithmetic operations. However, BigDecimal operations may be slower than floating-point operations, so they should be used only when necessary
-
+- equals() method of BigDecimal compare both value and scale whereas compareTo() method only compare value.
 ###### How to represent the data that exceeds the range of the long data type
 - In Java, data that exceeds the range of the long data type can be represented using the BigInteger class. The BigInteger class is a part of the java.math package, and it provides a way to represent arbitrarily large integers.
 
@@ -369,21 +369,14 @@
 - Polymorphism: Polymorphism is the ability of an object to take on many forms or shapes. In Java, this is achieved through method overriding and overloading. Polymorphism allows for flexibility in programming and enables different objects to be used interchangeably, as long as they implement the same interface or superclass.
 
 ###### Similarities and Differences between Interface and Abstract Class in Java
-- Both Interface and Abstract Class are used to achieve abstraction in Java.
-- Both Interface and Abstract Class cannot be instantiated.
-- Both Interface and Abstract Class can have abstract methods, which means methods without a body.
-- Both Interface and Abstract Class can have concrete methods, which means methods with a body.
-- Both Interface and Abstract Class can have static methods, but only Interface can have default methods.
-- Both Interface and Abstract Class can have static and final variables, but only Interface can have public static final variables (constants).
-- An Interface can only have abstract methods, while an Abstract Class can have both abstract and concrete methods.
-- A Class can implement multiple Interfaces, but it can only extend one Abstract Class.
-- An Interface can have public, static, final variables (constants) by default, while an Abstract Class cannot.
-- An Interface is used when a group of unrelated classes want to implement a common behavior or functionality, while an Abstract Class is used when a group of related classes want to share some common implementation.
-- Overall, the choice between using an Interface or Abstract Class depends on the specific requirements and design of the application.
+- All can't be instantiated.
+- All can contain the abstract methods.
+- All can contain the default methods.
+- Interface foucs on restricting the behaviour of class. Abstract class foucs on code reusable, emphasis ownership.
+- One class can only extend one class, but implement multiple interface.
+- Member vairables of interface can only be public static final, can't be modified and must have a default value. In abstract class, member variables can be default, can be redefine in subclass, can be reassigned value.
 
 ###### Understanding the difference between Shallow Copy and Deep Copy in Java
-- In Java, there are two types of object copying mechanisms: Shallow Copy and Deep Copy. Understanding the difference between these two is important to ensure that you are using the appropriate copying mechanism in your code.
-
 - Shallow Copy creates a new object and copies all the fields of the original object to the new object. However, if the original object contains reference variables, the reference variables are not copied; instead, they are simply copied to the new object. This means that both the original object and the new object will point to the same object in memory.
 
 - Deep Copy creates a new object and copies all the fields of the original object to the new object, including the reference variables. In this way, a completely new object is created with its own memory space, and any changes made to the new object will not affect the original object.
@@ -404,23 +397,17 @@
 
 ###### Difference between == and equals() in Java
 - In Java, the == operator is used to compare the reference values of two objects. It checks whether two object references point to the same memory location or not.
-On the other hand, the equals() method is used to compare the contents of two objects. It compares the values of the variables inside the objects, rather than the memory location.
-- Here are some key differences between == and equals():
-- == compares reference values while equals() compares contents.
-- == returns true if the two objects point to the same memory location, while equals() returns true if the objects have the same contents.
+- On the other hand, the equals() method is used to compare the contents of two objects. It compares the values of the variables inside the objects, rather than the memory location.
 - == can be used to compare primitive data types and objects, while equals() can only be used to compare objects.
 - == is faster than equals() since it only compares reference values, while equals() may have to compare the contents of the objects.
 - == is a binary operator while equals() is a method.
-- It is important to understand the difference between == and equals() in order to correctly compare objects in Java. In most cases, the equals() method should be used for object comparison, especially for user-defined classes. However, for certain cases such as comparing primitive data types, using == may be more appropriate.
 
 ###### What is the purpose of hashCode() in Java?
-- In Java, the hashCode() method is used to generate a hash code value for an object. Here are some of the reasons why hashCode() is useful:
-
+- In Java, the hashCode() method is used to generate a hash code value for an object. 
 - Hash codes are used in hash-based data structures like hash tables and hash maps. These data structures use the hash code to determine the index at which an object is stored in the table or map. This allows for fast lookup and insertion of objects.
-- hashCode() is used in conjunction with the equals() method to implement the contract between the two methods. According to this contract, if two objects are equal (as determined by the equals() method), then their hash codes must also be equal. This ensures that equal objects have the same hash code and can be found in a hash-based data structure.
+- hashCode() is used in conjunction with the equals() method. If two objects are equal (as determined by the equals() method), then their hash codes must also be equal. This ensures that equal objects have the same hash code and can be found in a hash-based data structure.
 - hashCode() is used in some algorithms like sorting and searching to improve performance. By using the hash code of an object, the algorithm can quickly determine whether two objects are likely to be equal or not.
 - hashCode() is used in object identity testing. Two objects that are identical (i.e., they refer to the same memory location) will have the same hash code.
-- It is important to note that the hashCode() method should be implemented consistently with the equals() method. This means that if two objects are equal, their hash codes should also be equal. If the hashCode() method is not implemented correctly, it can cause issues when using hash-based data structures or algorithms that rely on hash codes for performance.
 
 ###### Why is it necessary to override the hashCode() method when overriding equals() in Java?
 - In Java, the equals() method is used to determine whether two objects are equal, while the hashCode() method is used to generate a hash code value for an object. Here are some of the reasons why it is necessary to override the hashCode() method when overriding equals():
@@ -433,19 +420,18 @@ On the other hand, the equals() method is used to compare the contents of two ob
 ###### Differences between String, StringBuffer, and StringBuilder in Java
 - In Java, String, StringBuffer, and StringBuilder are all used to represent sequences of characters. Here are some of the key differences between these three classes:
 
-- String is an immutable class, which means that its contents cannot be changed once it is created.
-Any operation that modifies a String object actually creates a new String object, which can be inefficient in terms of memory usage and performance.
+- String is an immutable class, which means that its contents cannot be changed once it is created.Any operation that modifies a String object actually creates a new String object, which can be inefficient in terms of memory usage and performance.
 - String objects are thread-safe, which means that they can be accessed by multiple threads without the risk of data corruption.
-- StringBuffer is a mutable class, which means that its contents can be changed after it is created.
-Any operation that modifies a StringBuffer object does not create a new object. Instead, it modifies the existing object in place.
+- StringBuffer is a mutable class, which means that its contents can be changed after it is created. Any operation that modifies a StringBuffer object does not create a new object. Instead, it modifies the existing object in place.
 - StringBuffer objects are thread-safe, which means that they can be accessed by multiple threads without the risk of data corruption.
 - StringBuilder is similar to StringBuffer in that it is a mutable class and its contents can be changed after it is created.
 - The main difference between StringBuilder and StringBuffer is that StringBuilder is not thread-safe, which means that it cannot be accessed by multiple threads simultaneously without the risk of data corruption.
 - Because StringBuilder is not thread-safe, it can be faster than StringBuffer in certain situations.
-Overall, the choice between String, StringBuffer, and StringBuilder depends on the specific requirements of your application. If you need to represent a sequence of characters that cannot be modified, use String. If you need to represent a sequence of characters that can be modified and accessed by multiple threads, use StringBuffer. If you need to represent a sequence of characters that can be modified but will only be accessed by a single thread, use StringBuilder for optimal performance.
-
-
+- Overall, the choice between String, StringBuffer, and StringBuilder depends on the specific requirements of your application. If you need to represent a sequence of characters that cannot be modified, use String. If you need to represent a sequence of characters that can be modified and accessed by multiple threads, use StringBuffer. If you need to represent a sequence of characters that can be modified but will only be accessed by a single thread, use StringBuilder for optimal performance.
+- After Java9, the implementation of String transform from char array to byte array. Cause new String support Latin-1 and UTF-16 encoding. In Latin-1 encoding, byte occupy 1 byte, char occupy 2 byte. And most String objects contain only Latin-1 characters. So it can save the memory usage.
+- Using + operator is actually using append method in StringBuilder.
 ### Exception
+
 
 ### 
 
