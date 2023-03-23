@@ -16,8 +16,10 @@
 - In this file, it designate the executable file and config file
 - Run the executable file through these information
 ### Command Lines of Homebrew
-- brew install xxx
-- brew services info xxx
-- brew services start xxx
-- brew services stop xxx
-- brew services list
+```
+brew install xxx
+brew services info xxx
+brew services start xxx
+brew services stop xxx
+brew services list
+```
