@@ -1,3 +1,28 @@
+# permission of directories and flies
+- check current directories or files
+```
+ls -l
+```
+- example
+```
+drwxr-xr-x 2(numbers of link) owner user-group-owner 4096(size) last-modified-date filename
+```
+## permission constituent
+- first bit: 
+    1. d: directory
+    2. l: soft link
+    3. b: block device
+    4. c: char device
+    5. s: socket
+    6. p: pipe
+    7. -: normal file
+- first rwx: user's permission
+    1. r: read
+    2. w: write
+    3. x: execute
+    4. -: none
+- second rwx: group's permission
+- third rwx: other's permission
 # Command line
 ### System information
 - uname
@@ -50,6 +75,23 @@ swapon --show
 ufw status / enable / disable
 ```
 ### Vim
+- replace content
+```
+# pattern
+:[rang]s/{pattern}/{string}/[flags]
+# example
+:%s/find_content/replacement/g
+# if no % means cuttent line
+# if no g means replace only first match
+```
+- move cursor to last line
+```
+G or shift + g
+```
+- move cursor to head/tail of line
+```
+0 and $(shift+4)
+```
 - clear all content
 ```
 # turn into normal mode, then type following command
@@ -58,6 +100,10 @@ Esc -> gg -> dG
 - copy & past a whole line
 ```
 yy then p
+```
+- delete current line
+```
+dd
 ```
 ### apt
 - source file: /etc/apt/sources.list
