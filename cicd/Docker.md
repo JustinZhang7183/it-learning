@@ -35,3 +35,14 @@ services:
       timeout: 10s
       retries: 10
 ```
+# Docker Tuning and Monitoring
+## Limit resource usage in windows Docker Desktop (using WSL2)
+- create a ```.wslconfig``` file in user path
+```
+[wsl2]
+memory=4GB
+processors=2
+swap=0
+localhostForwarding=true
+```
+
