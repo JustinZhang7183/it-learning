@@ -23,6 +23,54 @@ drwxr-xr-x 2(numbers of link) owner user-group-owner 4096(size) last-modified-da
     4. -: none
 - second rwx: group's permission
 - third rwx: other's permission
+## switch to root
+```
+# reset the password for root
+sudo passwd root
+# switch root
+su
+# switch back
+su username
+```
+## grant root permission for other user
+```
+sudo chmod u+w /etc/sudoers
+sudo /vim /etc/sudoers
+# add a line below the 'root ALL=(ALL:ALL) ALL'
+username ALL=(ALL:ALL) ALL
+sudo chmod u-w /etc/sudoers
+# then use 'sudo su'
+```
+# environment variables
+## Basis
+- check all variables
+```
+export
+```
+- check all path
+```
+echo $PATH
+```
+- add enviroment
+    1. export xx=xx : for current session
+    2. vim ~/.bashrc : for current user, need execute source /xxx to affect
+    3. vim ~/.bash_profile : for current user, need execute source /xxx to affect
+    4. vim /etc/bashrc : for all user, need execute source /xxx to affect
+    4. vim /etc/profile : for all user, need execute source /xxx to affect
+- add PATH
+```
+# link origin path
+export PATH=$PATH:yourPath
+```
+## for java
+- manage multiple version
+```
+update-alternatives --config java
+```
+- designate specific version by environment
+```
+JAVA_HOME="/xxx/xxx/xxx"
+```
 # Command line
 ### System information
 - uname
@@ -115,4 +163,25 @@ source /etc/apt/sources.list
 ```
 apt-get upgrade / update
 ```
-
+### tar
+#### options:
+- c : Creates Archive 
+- x : Extract the archive 
+- f : creates archive with given filename 
+- t : displays or lists files in archived file 
+- u : archives and adds to an existing archive file 
+- v : Displays Verbose Information 
+- A : Concatenates the archive files 
+- z : zip, tells tar command that creates tar file using gzip 
+- j : filter archive tar file using tbzip 
+- W : Verify a archive file 
+- r : update or add file or directory in already existed .tar file 
+### lsof (lists open files)
+- no parameter : show all active open files
+- -i : show all connection
+    1. -i 4/6 : IPv4/6
+    2. -i TCP/UDP
+    3. -i@ip/ip:port : check connection
+    4. -i port
+    5. -i service : service name in /etc/service
+- -u : show open files by specific user 
