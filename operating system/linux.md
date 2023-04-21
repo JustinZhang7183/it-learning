@@ -35,7 +35,7 @@ su username
 ## grant root permission for other user
 ```
 sudo chmod u+w /etc/sudoers
-sudo /vim /etc/sudoers
+sudo vim /etc/sudoers
 # add a line below the 'root ALL=(ALL:ALL) ALL'
 username ALL=(ALL:ALL) ALL
 sudo chmod u-w /etc/sudoers
@@ -185,3 +185,36 @@ apt-get upgrade / update
     4. -i port
     5. -i service : service name in /etc/service
 - -u : show open files by specific user 
+# network
+## power on check
+- error info:
+```
+A start job is running for wait for network to be configured
+```
+- reduce the wait time
+```
+vim /etc/systemd/system/network-online.target.wants/systemd-networkd-wait-online.service
+# add following content below the [Service]
+TimeoutStartSec=2sec
+# reboot
+```
+## set static ip address
+```
+# vim /etc/netplan/00-installer-config.yaml
+network:
+  ethernets:
+    eth0:
+      dhcp4: false
+      addresses: [192.168.1.102/24,xxxx:xxxx:xxxx:xxxx::2/64]
+      routes:
+        - to: default
+          via: 192.168.1.1
+        - to: default
+          via: xxxx::1
+      nameservers:
+        addresses: [192.168.1.1,xxxx::1]
+  version: 2
+# apply
+netplan apply
+```
+

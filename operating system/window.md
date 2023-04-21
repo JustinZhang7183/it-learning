@@ -23,3 +23,12 @@ netstat -aon|findstr "port"
 tasklist|findstr "pid"
 taskkill /f /t /im TIM.exe or use the task manager in gui(Graphical user interface)
 ```
+# Virtual Machine
+## Hyper-v
+### Virtual switch
+- internal
+### some problems
+- virtual machine can not ping host, but host can ping virtual machine.
+```
+it's caused by windows defender, need to update the inbound rule about ICMPv4-In
+```
