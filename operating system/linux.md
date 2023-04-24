@@ -153,15 +153,32 @@ yy then p
 ```
 dd
 ```
-### apt
+### apt (Advanced Packaging Tools)
 - source file: /etc/apt/sources.list
-- make your update effect
 ```
+# make your update effect
 source /etc/apt/sources.list
 ```
-- upgrade / update software
+- list
 ```
-apt-get upgrade / update
+# check which packages can be upgraded
+apt update
+apt list --upgradable
+# check installed
+apt list --installed
+apt list --all-versions
+```
+- upgrade package
+```
+# update all
+apt upgrade
+# update specific package
+apt update <package_name>
+```
+- search
+```
+# search package
+apt search <keyword>
 ```
 ### tar
 #### options:
